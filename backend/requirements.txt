@@ -1,4 +1,4 @@
-# 42Nexus Backend Requirements
+# 1337Jury Backend Requirements
 # This file is for: ADMIRAL (Backend Dev 1) & ZERO (Backend Dev 2)
 
 fastapi==0.104.1

@@ -1,13 +1,2 @@
-// 42Nexus - Main Entry Point
+// 1337Jury - Main Entry Point
 // This file is for: FATYZA (Frontend Developer)
-
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)

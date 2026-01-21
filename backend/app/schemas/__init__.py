@@ -1,3 +1,3 @@
-# 42Nexus - Pydantic Schemas Module
+# 1337Jury - Pydantic Schemas Module
 # This file is for: ADMIRAL (Backend Dev 1) & ZERO (Backend Dev 2)
-# Description: Request/Response schemas (add as needed)
+# Description: Request/Response schemas

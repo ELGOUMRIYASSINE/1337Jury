@@ -1,10 +1,2 @@
-/* 42Nexus - Global Styles */
+/* 1337Jury - Global Styles */
 /* This file is for: FATYZA (Frontend Developer) */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  @apply bg-42-darker text-white;
-}

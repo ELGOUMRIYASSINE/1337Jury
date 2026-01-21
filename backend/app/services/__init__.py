@@ -1,2 +1,2 @@
-# 42Nexus - Services Module
+# 1337Jury - Services Module
 # This file is for: ADMIRAL (Backend Dev 1)

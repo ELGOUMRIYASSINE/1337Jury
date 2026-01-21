@@ -1,21 +1,43 @@
-# 42Nexus - Project Overview
+# 1337Jury - Project Overview
 
-## 🚀 Platform Name: **42Nexus**
+## 🚀 Platform Name: **1337Jury**
 
-A collaborative platform for 42 students navigating the new Python common core.
+A collaborative platform for 42/1337 students navigating the new Python common core.
 
 ---
 
-## ⏱️ Total Time Budget: <40 Hours
+## 💡 Project Idea
 
-| Developer | Role | Time |
-|-----------|------|------|
-| **Frontend** | UI/UX, React pages | 13-16h |
-| **Backend 1** | Auth, Users, Voting, Disputes | 11-16h |
-| **Backend 2** | Resources, Tests | 9-12h |
-| **Backend 3** | Database setup (MariaDB + phpMyAdmin) | 6-8h |
+**1337Jury** is a community-driven platform where 42/1337 students can:
 
-**Working in parallel = ~16-18 hours total!**
+1. **Resolve Subject Ambiguities** - When the project subject is unclear, students can create a vote to clarify what's allowed or not. The community votes, but **staff decisions are FINAL**.
+
+2. **Settle Correction Disputes** - During peer evaluations, disagreements happen. Students can report disputes where the community votes for either the corrector or corrected. **Staff can override any decision**.
+
+3. **Share Learning Resources** - A hub where students share tutorials, documentation, videos, and articles with upvote/downvote system.
+
+4. **Share Test Cases** - Repository of community-contributed tests with staff approval system.
+
+---
+
+## 🎯 Key Feature: Staff Override
+
+The unique value proposition of 1337Jury:
+- When a **staff member** makes a decision on any vote or dispute
+- The decision is **immediately FINAL**
+- Even if 100 students voted differently, staff wins
+- This ensures official rulings are respected
+
+---
+
+## 👥 Team Roles & Responsibilities
+
+| Developer | Role | Responsibilities | Time |
+|-----------|------|------------------|------|
+| **YASSINE** | Backend Dev 3 (Database) | Supabase setup, create all tables, seed data | 4-6h |
+| **ADMIRAL** | Backend Dev 1 | Auth, Users, Voting, Disputes API | 11-16h |
+| **ZERO** | Backend Dev 2 | Resources, Tests API | 9-12h |
+| **FATYZA** | Frontend Dev | Complete React UI | 13-16h |
 
 ---
 
@@ -26,23 +48,98 @@ A collaborative platform for 42 students navigating the new Python common core.
 | **Frontend** | React + Vite + TailwindCSS |
 | **Backend** | FastAPI (Python) |
 | **Database** | PostgreSQL (Supabase) |
-| **DB Admin** | Supabase Dashboard |
 | **Auth** | 42 OAuth API |
 
 ---
 
-## 📁 Project Files
+## 🔄 Development Order
 
-| File | Description |
-|------|-------------|
-| [TODO_FRONTEND.md](TODO_FRONTEND.md) | Frontend developer tasks |
-| [TODO_BACKEND_1.md](TODO_BACKEND_1.md) | Auth, Users, Voting, Disputes |
-| [TODO_BACKEND_2.md](TODO_BACKEND_2.md) | Resources & Tests features |
-| [TODO_BACKEND_3.md](TODO_BACKEND_3.md) | Database setup (MariaDB) |
+```
+1. YASSINE: Database Setup (START FIRST - others depend on this!)
+   ↓
+2. ADMIRAL: Auth & Users (needs DB connection)
+   ↓
+3. ADMIRAL: Voting & Disputes (after auth works)
+   ZERO: Resources & Tests (can work in parallel)
+   ↓
+4. FATYZA: Frontend (can start with mock data, integrate when APIs ready)
+```
 
 ---
 
-## 🎯 Core Features
+## 🚦 How To Run
+
+### 1. Database (YASSINE)
+```bash
+# Go to https://supabase.com
+# Create new project "1337jury"
+# Run database/init.sql in SQL Editor
+# Share connection string with team
+```
+
+### 2. Backend (ADMIRAL & ZERO)
+```bash
+cd backend
+pip install -r requirements.txt
+cp .env.example .env
+# Fill in .env with DB credentials from YASSINE
+uvicorn app.main:app --reload
+```
+
+### 3. Frontend (FATYZA)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 📁 Project Structure
+
+```
+1337Jury/
+├── backend/
+│   ├── app/
+│   │   ├── main.py           # FastAPI app entry
+│   │   ├── config.py         # Environment config
+│   │   ├── database.py       # DB connection
+│   │   ├── api/routes/       # API endpoints
+│   │   ├── models/           # SQLAlchemy models
+│   │   ├── services/         # Business logic
+│   │   └── middleware/       # Auth middleware
+│   ├── requirements.txt
+│   └── .env.example
+├── database/
+│   └── init.sql              # Database schema
+├── frontend/
+│   ├── src/
+│   │   ├── pages/            # React pages
+│   │   ├── components/       # Reusable components
+│   │   ├── store/            # Zustand stores
+│   │   └── services/         # API calls
+│   └── package.json
+└── README.md
+```
+
+---
+
+## 🗄️ Database Tables (10 total)
+
+1. `users` - 42 user accounts
+2. `projects` - Python common core projects
+3. `resources` - Learning materials
+4. `resource_votes` - Upvotes/downvotes
+5. `tests` - Test cases
+6. `subject_votes` - Clarification questions
+7. `vote_options` - Answer options
+8. `user_votes` - User's answers
+9. `disputes` - Correction disagreements
+10. `dispute_votes` - Dispute votes
+
+---
+
+## 📋 Core Features
 
 ### 1. 🔐 Authentication
 - Login with 42 OAuth
@@ -69,72 +166,4 @@ A collaborative platform for 42 students navigating the new Python common core.
 
 ---
 
-## 🔄 Development Order
-
-```
-1. Backend Dev 3: Database Setup (FIRST - others depend on this!)
-   ↓
-2. Backend Dev 1: Auth & Users (needs DB)
-   ↓
-3. Backend Dev 1: Voting & Disputes (after auth)
-   Backend Dev 2: Resources & Tests (parallel)
-   ↓
-4. Frontend: Can start with mock data, integrate when APIs ready
-```
-
----
-
-## 🗄️ Database Tables (10 total)
-
-1. `users` - 42 user accounts
-2. `projects` - Python common core projects
-3. `resources` - Learning materials
-4. `resource_votes` - Upvotes/downvotes
-5. `tests` - Test cases
-6. `subject_votes` - Clarification questions
-7. `vote_options` - Answer options
-8. `user_votes` - User's answers
-9. `disputes` - Correction disagreements
-10. `dispute_votes` - Dispute votes
-
----
-
-## 🔑 Key Feature: Staff Override
-
-When a **staff member** makes a decision on any vote or dispute:
-- The vote/dispute is **immediately closed**
-- Staff's decision is **FINAL**
-- Even if 100 people voted differently, staff wins
-
-This is the unique value proposition of 42Nexus!
-
----
-
-## 🚦 Quick Start
-
-### Backend Dev 3 (Database) - START FIRST!
-```bash
-# Go to https://supabase.com
-# Create new project "42nexus"
-# Run SQL script in SQL Editor
-# Share connection string with team
-```
-
-### Backend Dev 1 & 2
-```bash
-cd backend
-pip install -r requirements.txt
-# Wait for DB credentials from Dev 3
-uvicorn app.main:app --reload
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
-
-Good luck with the hackathon! 🏆
+Good luck team! 🏆
