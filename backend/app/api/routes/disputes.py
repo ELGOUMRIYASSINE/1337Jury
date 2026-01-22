@@ -23,3 +23,11 @@ class DisputeCreate(BaseModel):
     corrector_username: str
     corrected_username: str
 
+
+class DisputeVoteRequest(BaseModel):
+    vote_for: str
+
+
+class StaffDecision(BaseModel):
+    winner: str 
+    reason: str | None = None
