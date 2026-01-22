@@ -14,3 +14,18 @@ class ResourceType(str, enum.Enum):
     DOCUMENTATION = "documentation"
     TUTORIAL = "tutorial"
     OTHER = "other"
+
+
+class Resource(Base):
+    __tablename__ = "resources"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    url = Column(String(500), nullable=False)
+    description = Column(Text, nullable=True)
+    resource_type = Column(Enum(ResourceType), default=ResourceType.OTHER)
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    upvotes = Column(Integer, default=0)
+    downvotes = Column(Integer, default=0)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
