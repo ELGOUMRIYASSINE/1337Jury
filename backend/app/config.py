@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     FT_CLIENT_ID: str
     FT_CLIENT_SECRET: str
     FT_REDIRECT_URI: str
+    FT_AUTH_REDIRECT: str
     FT_AUTH_URL: str = "https://api.intra.42.fr/oauth/authorize"
     FT_TOKEN_URL: str = "https://api.intra.42.fr/oauth/token"
     FT_API_URL: str = "https://api.intra.42.fr/v2"

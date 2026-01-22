@@ -14,10 +14,7 @@ class FTApiService:
         self.redirect_uri = settings.FT_REDIRECT_URI
 
     def get_authorization_url(self) -> str:
-        return (
-            f"{settings.FT_AUTH_URL}?client_id={self.client_id}"
-            f"&redirect_uri={self.redirect_uri}&response_type=code&scope=public"
-        )
+        return settings.FT_AUTH_REDIRECT
 
     async def exchange_code_for_token(self, code: str) -> Optional[dict]:
         async with httpx.AsyncClient() as client:
