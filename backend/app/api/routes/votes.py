@@ -183,3 +183,30 @@ async def close_vote(
 class VoteUpdate(BaseModel):
     title: str | None = None
     description: str | None = None
+
+
+@router.put("/{vote_id}")
+async def update_vote(
+    vote_id: int,
+    data: VoteUpdate,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """Update a vote - only the creator can edit"""
+    result = await db.execute(select(SubjectVote).where(SubjectVote.id == vote_id))
+    vote = result.scalar_one_or_none()
+    if not vote:
+        raise HTTPException(status_code=404, detail="Vote not found")
+    if vote.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the creator can edit this vote")
+    if vote.status != VoteStatus.OPEN:
+        raise HTTPException(status_code=400, detail="Cannot edit a closed vote")
+
+    if data.title:
+        vote.title = data.title
+    if data.description:
+        vote.description = data.description
+
+    await db.commit()
+    await db.refresh(vote)
+    return vote.to_dict()
