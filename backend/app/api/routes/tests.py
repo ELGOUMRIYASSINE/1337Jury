@@ -19,3 +19,19 @@ class TestCreate(BaseModel):
     description: str | None = None
     github_url: str
     project_id: int
+
+
+@router.get("")
+async def list_tests(
+    project_id: int | None = None,
+    approved_only: bool = True,
+    db: AsyncSession = Depends(get_db)
+):
+    query = select(Test)
+    if project_id:
+        query = query.where(Test.project_id == project_id)
+    if approved_only:
+        query = query.where(Test.is_approved == True)
+    query = query.order_by(Test.downloads.desc())
+    result = await db.execute(query)
+    return [t.to_dict() for t in result.scalars().all()]
