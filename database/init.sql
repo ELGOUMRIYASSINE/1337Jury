@@ -60,3 +60,18 @@ CREATE TABLE IF NOT EXISTS tests (
     downloads INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Subject votes table
+CREATE TABLE IF NOT EXISTS subject_votes (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    project_id INTEGER REFERENCES projects(id),
+    user_id INTEGER REFERENCES users(id),
+    status VARCHAR(50) DEFAULT 'open',
+    winning_option_id INTEGER,
+    staff_decision_by INTEGER REFERENCES users(id),
+    staff_decision_reason TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    closed_at TIMESTAMP WITH TIME ZONE
+);
