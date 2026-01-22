@@ -127,3 +127,9 @@ CREATE TABLE IF NOT EXISTS dispute_votes (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(dispute_id, user_id)
 );
+
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_resources_project ON resources(project_id);
+CREATE INDEX IF NOT EXISTS idx_tests_project ON tests(project_id);
+CREATE INDEX IF NOT EXISTS idx_subject_votes_project ON subject_votes(project_id);
+CREATE INDEX IF NOT EXISTS idx_disputes_project ON disputes(project_id);
