@@ -35,3 +35,22 @@ async def list_resources(project_id: int | None = None, db: AsyncSession = Depen
     query = query.order_by((Resource.upvotes - Resource.downvotes).desc())
     result = await db.execute(query)
     return [r.to_dict() for r in result.scalars().all()]
+
+@router.post("")
+async def create_resource(
+    data: ResourceCreate,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    resource = Resource(
+        title=data.title,
+        url=data.url,
+        description=data.description,
+        resource_type=ResourceType(data.resource_type),
+        project_id=data.project_id,
+        user_id=user.id,
+    )
+    db.add(resource)
+    await db.commit()
+    await db.refresh(resource)
+    return resource.to_dict()
