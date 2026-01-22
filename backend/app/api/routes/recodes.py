@@ -75,6 +75,7 @@ async def list_recodes(
     
     return enriched
 
+
 @router.get("/my")
 async def list_my_recodes(
     db: AsyncSession = Depends(get_db),
@@ -97,3 +98,23 @@ async def list_my_recodes(
         enriched.append(data)
     
     return enriched
+
+
+@router.get("/campuses")
+async def list_campuses():
+    """List available 42/1337 campuses"""
+    return [
+        {"id": "khouribga", "name": "1337 Khouribga"},
+        {"id": "benguerir", "name": "1337 Ben Guerir"},
+        {"id": "tetouan", "name": "1337 Tetouan"},
+        {"id": "med", "name": "1337 MED"},
+        {"id": "rabat", "name": "1337 Rabat"},
+        {"id": "paris", "name": "42 Paris"},
+        {"id": "lyon", "name": "42 Lyon"},
+        {"id": "nice", "name": "42 Nice"},
+        {"id": "berlin", "name": "42 Berlin"},
+        {"id": "london", "name": "42 London"},
+        {"id": "tokyo", "name": "42 Tokyo"},
+        {"id": "seoul", "name": "42 Seoul"},
+        {"id": "other", "name": "Other"},
+    ]
