@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 
@@ -7,17 +7,39 @@ export default function CallbackPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { setToken, fetchUser } = useAuthStore()
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const token = searchParams.get('token')
-    if (token) {
-      localStorage.setItem('token', token)
-      setToken(token)
-      fetchUser().then(() => navigate('/'))
-    } else {
-      navigate('/login')
+    const handleCallback = async () => {
+      const token = searchParams.get('token')
+      if (token) {
+        try {
+          localStorage.setItem('token', token)
+          setToken(token)
+          await fetchUser()
+          navigate('/', { replace: true })
+        } catch (err) {
+          console.error('Auth error:', err)
+          setError('Authentication failed')
+          setTimeout(() => navigate('/login', { replace: true }), 2000)
+        }
+      } else {
+        navigate('/login', { replace: true })
+      }
     }
-  }, [searchParams])
+    handleCallback()
+  }, [])
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500">{error}</p>
+          <p className="text-gray-400">Redirecting to login...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
