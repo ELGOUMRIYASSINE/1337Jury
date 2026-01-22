@@ -9,12 +9,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://exquisite-adaptation-production.up.railway.app/',
+        target: 'https://1337jury-production.up.railway.app',
         changeOrigin: true,
       },
     },
   },
   preview: {
-    allowedHosts: ['exquisite-adaptation-production.up.railway.app'],
+    allowedHosts: true,
   },
 })

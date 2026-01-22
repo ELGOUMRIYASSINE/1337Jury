@@ -1,7 +1,8 @@
 
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+// In production, use the backend URL directly. In dev, use proxy
+const API_URL = import.meta.env.VITE_API_URL || 'https://1337jury-production.up.railway.app/api'
 
 const api = axios.create({
   baseURL: API_URL,
