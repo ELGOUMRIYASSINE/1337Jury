@@ -88,3 +88,13 @@ CREATE TABLE IF NOT EXISTS vote_options (
 ALTER TABLE subject_votes 
 ADD CONSTRAINT fk_winning_option 
 FOREIGN KEY (winning_option_id) REFERENCES vote_options(id);
+
+-- User votes
+CREATE TABLE IF NOT EXISTS user_votes (
+    id SERIAL PRIMARY KEY,
+    subject_vote_id INTEGER REFERENCES subject_votes(id) ON DELETE CASCADE,
+    option_id INTEGER REFERENCES vote_options(id),
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(subject_vote_id, user_id)
+);
