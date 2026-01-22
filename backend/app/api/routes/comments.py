@@ -99,3 +99,33 @@ async def delete_comment(
     await db.delete(comment)
     await db.commit()
     return {"message": "Comment deleted"}
+
+
+@router.get("/count")
+async def get_comment_counts(
+    vote_ids: Optional[str] = None,
+    dispute_ids: Optional[str] = None,
+    db: AsyncSession = Depends(get_db)
+):
+    """Get comment counts for multiple votes/disputes"""
+    from sqlalchemy import func
+    
+    counts = {}
+    
+    if vote_ids:
+        ids = [int(x) for x in vote_ids.split(",") if x]
+        for vid in ids:
+            result = await db.execute(
+                select(func.count(Comment.id)).where(Comment.vote_id == vid)
+            )
+            counts[f"vote-{vid}"] = result.scalar() or 0
+    
+    if dispute_ids:
+        ids = [int(x) for x in dispute_ids.split(",") if x]
+        for did in ids:
+            result = await db.execute(
+                select(func.count(Comment.id)).where(Comment.dispute_id == did)
+            )
+            counts[f"dispute-{did}"] = result.scalar() or 0
+    
+    return counts
