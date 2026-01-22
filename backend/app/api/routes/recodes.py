@@ -251,3 +251,22 @@ async def complete_recode(
     recode.status = "completed"
     await db.commit()
     return {"message": "Recode completed!"}
+
+
+@router.post("/{recode_id}/cancel")
+async def cancel_recode(
+    recode_id: int,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """Cancel a recode request (creator only)"""
+    result = await db.execute(select(RecodeRequest).where(RecodeRequest.id == recode_id))
+    recode = result.scalar_one_or_none()
+    if not recode:
+        raise HTTPException(status_code=404, detail="Recode request not found")
+    if recode.user_id != user.id and not user.is_staff:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    recode.status = "cancelled"
+    await db.commit()
+    return {"message": "Request cancelled"}
