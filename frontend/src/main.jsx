@@ -1,5 +1,4 @@
-// 1337Jury - Main Entry Point
-// This file is for: FATYZA (Frontend Developer)
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'

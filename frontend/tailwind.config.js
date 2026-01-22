@@ -1,5 +1,4 @@
-// 1337Jury - Tailwind Configuration
-// This file is for: FATYZA (Frontend Developer)
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],

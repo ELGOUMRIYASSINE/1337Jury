@@ -1,6 +1,4 @@
-// 1337Jury - Main App Component
-// This file is for: FATYZA (Frontend Developer)
-// Description: Main router and app structure
+
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from './store/authStore'
 import Layout from './components/Layout'

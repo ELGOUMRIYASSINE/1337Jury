@@ -1,7 +1,4 @@
-// 1337Jury - API Service
-// This file is for: FATYZA (Frontend Developer)
-// Description: Axios instance with auth interceptor
-// API Service - FATYZA
+
 import axios from 'axios'
 
 const API_URL = 'http://localhost:8000/api'
@@ -10,7 +7,6 @@ const api = axios.create({
   baseURL: API_URL,
 })
 
-// Add token to requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {
@@ -19,21 +15,19 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Auth
+
 export const authApi = {
   getLoginUrl: () => `${API_URL}/auth/login`,
   getMe: (token) => api.get(`/auth/me?token=${token}`),
   verify: (token) => api.get(`/auth/verify?token=${token}`),
 }
 
-// Projects
 export const projectsApi = {
   list: () => api.get('/projects'),
   get: (id) => api.get(`/projects/${id}`),
   create: (data) => api.post('/projects', data),
 }
 
-// Resources
 export const resourcesApi = {
   list: (projectId) => api.get('/resources', { params: { project_id: projectId } }),
   create: (data) => api.post('/resources', data),
@@ -41,7 +35,6 @@ export const resourcesApi = {
   delete: (id) => api.delete(`/resources/${id}`),
 }
 
-// Subject Votes
 export const votesApi = {
   list: (projectId, status) => api.get('/votes', { params: { project_id: projectId, status } }),
   get: (id) => api.get(`/votes/${id}`),
@@ -53,7 +46,6 @@ export const votesApi = {
   close: (id) => api.post(`/votes/${id}/close`),
 }
 
-// Disputes
 export const disputesApi = {
   list: (projectId, status) => api.get('/disputes', { params: { project_id: projectId, status } }),
   get: (id) => api.get(`/disputes/${id}`),
@@ -65,7 +57,6 @@ export const disputesApi = {
   close: (id) => api.post(`/disputes/${id}/close`),
 }
 
-// Tests
 export const testsApi = {
   list: (projectId, approvedOnly = true) => api.get('/tests', { params: { project_id: projectId, approved_only: approvedOnly } }),
   pending: () => api.get('/tests/pending'),
@@ -76,7 +67,6 @@ export const testsApi = {
   delete: (id) => api.delete(`/tests/${id}`),
 }
 
-// Comments
 export const commentsApi = {
   list: (voteId, disputeId) => api.get('/comments', { params: { vote_id: voteId, dispute_id: disputeId } }),
   create: (data) => api.post('/comments', data),
@@ -86,10 +76,9 @@ export const commentsApi = {
   }),
 }
 
-// Recode Requests
 export const recodesApi = {
   list: (projectId, campus, status) => {
-    const params = { _t: Date.now() } // Cache buster
+    const params = { _t: Date.now() }
     if (projectId) params.project_id = projectId
     if (campus) params.campus = campus
     if (status) params.status = status
