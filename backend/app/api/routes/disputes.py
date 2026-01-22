@@ -69,3 +69,35 @@ async def list_disputes(
         output.append(dispute_dict)
     
     return output
+
+
+@router.get("/{dispute_id}")
+async def get_dispute(
+    dispute_id: int,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    result = await db.execute(select(Dispute).where(Dispute.id == dispute_id))
+    dispute = result.scalar_one_or_none()
+    if not dispute:
+        raise HTTPException(status_code=404, detail="Dispute not found")
+    
+    dispute_dict = dispute.to_dict()
+
+    if dispute.corrector_id == user.id:
+        corrector_result = await db.execute(select(User).where(User.id == dispute.corrector_id))
+        corrector = corrector_result.scalar_one_or_none()
+        dispute_dict["corrector_username"] = corrector.login if corrector else None
+    else:
+        dispute_dict["corrector_username"] = None
+    
+    if dispute.corrected_id == user.id:
+        corrected_result = await db.execute(select(User).where(User.id == dispute.corrected_id))
+        corrected = corrected_result.scalar_one_or_none()
+        dispute_dict["corrected_username"] = corrected.login if corrected else None
+    else:
+        dispute_dict["corrected_username"] = None
+    
+    return dispute_dict
+
+
