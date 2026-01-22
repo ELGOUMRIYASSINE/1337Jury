@@ -22,3 +22,17 @@ CREATE TABLE IF NOT EXISTS projects (
     slug VARCHAR(100) UNIQUE NOT NULL,
     description TEXT
 );
+
+-- Resources table
+CREATE TABLE IF NOT EXISTS resources (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    url VARCHAR(500) NOT NULL,
+    description TEXT,
+    resource_type VARCHAR(50) DEFAULT 'other',
+    project_id INTEGER REFERENCES projects(id),
+    user_id INTEGER REFERENCES users(id),
+    upvotes INTEGER DEFAULT 0,
+    downvotes INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
