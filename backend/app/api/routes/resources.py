@@ -25,3 +25,13 @@ class ResourceCreate(BaseModel):
 
 class VoteRequest(BaseModel):
     is_upvote: bool
+
+
+@router.get("")
+async def list_resources(project_id: int | None = None, db: AsyncSession = Depends(get_db)):
+    query = select(Resource)
+    if project_id:
+        query = query.where(Resource.project_id == project_id)
+    query = query.order_by((Resource.upvotes - Resource.downvotes).desc())
+    result = await db.execute(query)
+    return [r.to_dict() for r in result.scalars().all()]
