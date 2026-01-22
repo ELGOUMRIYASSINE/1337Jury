@@ -117,3 +117,13 @@ CREATE TABLE IF NOT EXISTS disputes (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     closed_at TIMESTAMP WITH TIME ZONE
 );
+
+-- Dispute votes
+CREATE TABLE IF NOT EXISTS dispute_votes (
+    id SERIAL PRIMARY KEY,
+    dispute_id INTEGER REFERENCES disputes(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id),
+    vote_for VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(dispute_id, user_id)
+);
