@@ -46,3 +46,17 @@ CREATE TABLE IF NOT EXISTS resource_votes (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(resource_id, user_id)
 );
+
+-- Tests table
+CREATE TABLE IF NOT EXISTS tests (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    github_url VARCHAR(500) NOT NULL,
+    project_id INTEGER REFERENCES projects(id),
+    user_id INTEGER REFERENCES users(id),
+    is_approved BOOLEAN DEFAULT FALSE,
+    approved_by INTEGER REFERENCES users(id),
+    downloads INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
