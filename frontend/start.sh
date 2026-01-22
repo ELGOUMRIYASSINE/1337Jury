@@ -1,0 +1,1 @@
+serve --single --listen $PORT dist
