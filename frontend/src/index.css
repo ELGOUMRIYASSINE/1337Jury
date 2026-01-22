@@ -1,2 +1,103 @@
-/* 1337Jury - Global Styles */
-/* This file is for: FATYZA (Frontend Developer) */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-jury-dark text-gray-200 font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-jury-darker;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-jury-border rounded-full hover:bg-gray-600;
+  }
+
+
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      @apply w-0 h-0;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-jury-card rounded-lg p-4 border border-jury-border;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200 text-sm;
+  }
+
+  .btn-primary {
+    @apply bg-jury-primary text-jury-dark hover:bg-jury-primary/90;
+  }
+
+  .btn-secondary {
+    @apply bg-jury-card border border-jury-border text-gray-300 hover:bg-jury-border;
+  }
+
+  .btn-danger {
+    @apply bg-jury-coral text-white hover:bg-jury-coral/90;
+  }
+
+  .btn-warning {
+    @apply bg-jury-warning text-jury-dark hover:bg-jury-warning/90;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 bg-jury-dark border border-jury-border rounded-md text-gray-200 placeholder-gray-500 focus:outline-none focus:border-jury-primary transition-colors;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .badge-warning {
+    @apply bg-jury-warning text-jury-dark;
+  }
+
+  .badge-danger {
+    @apply bg-jury-coral/20 text-jury-coral border border-jury-coral/30;
+  }
+
+  .badge-primary {
+    @apply bg-jury-primary/20 text-jury-primary border border-jury-primary/30;
+  }
+
+  
+  .glow-primary {
+    box-shadow: 0 0 20px rgba(0, 212, 212, 0.15);
+  }
+
+  .glow-coral {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.15);
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
