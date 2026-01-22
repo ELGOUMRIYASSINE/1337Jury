@@ -55,3 +55,49 @@ async def create_resource(
     await db.refresh(resource)
     return resource.to_dict()
 
+@router.post("/{resource_id}/vote")
+async def vote_resource(
+    resource_id: int,
+    data: VoteRequest,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    result = await db.execute(select(Resource).where(Resource.id == resource_id))
+    resource = result.scalar_one_or_none()
+    if not resource:
+        raise HTTPException(status_code=404, detail="Resource not found")
+
+    result = await db.execute(
+        select(ResourceVote).where(
+            ResourceVote.resource_id == resource_id,
+            ResourceVote.user_id == user.id
+        )
+    )
+    existing_vote = result.scalar_one_or_none()
+
+    if existing_vote:
+        if existing_vote.is_upvote == data.is_upvote:
+            if existing_vote.is_upvote:
+                resource.upvotes -= 1
+            else:
+                resource.downvotes -= 1
+            await db.delete(existing_vote)
+        else:
+            if data.is_upvote:
+                resource.upvotes += 1
+                resource.downvotes -= 1
+            else:
+                resource.upvotes -= 1
+                resource.downvotes += 1
+            existing_vote.is_upvote = data.is_upvote
+    else:
+        vote = ResourceVote(resource_id=resource_id, user_id=user.id, is_upvote=data.is_upvote)
+        db.add(vote)
+        if data.is_upvote:
+            resource.upvotes += 1
+        else:
+            resource.downvotes += 1
+
+    await db.commit()
+    await db.refresh(resource)
+    return resource.to_dict()
